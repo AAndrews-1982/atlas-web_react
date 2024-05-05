@@ -1,4 +1,4 @@
-// Task 1 - Webpack.config.js
+// Task 2 - Webpack.config.js
 
 const path = require('path');
 
@@ -12,20 +12,28 @@ module.exports = {
  module: {
     rules: [
       {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'images/'
-            }
-          },
-        ],
+
+
+	// CSS loader -->
+        test: /\.css$/, // Apply this rule to files ending in .css
+        use: ['style-loader', 'css-loader'] // Use style-loader and css-loader for .css files
       },
       {
-        test: /\.html$/,
-        use: ['html-loader']
+        test: /\.(png|svg|jpg|jpeg|gif)$/i, // Apply this rule to image files
+         use: [
+          {
+        // Loader -->    
+	    loader: 'file-loader',
+            options: {
+              name: '[name].[ext]', // Keep the original file name and extension
+              outputPath: 'images/' // Output directory for images
+            }
+          },
+          {
+          // Add image-webpack-loader -->  
+              loader: 'image-webpack-loader', // Use image-webpack-loader to optimize images
+          },
+        ],
       },
     ],
   },
