@@ -1,48 +1,63 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  devtool: "inline-source-map",
+  mode: 'development',
+  devtool: 'inline-source-map',
   devServer: {
-    port: 8564,
+    contentBase: './public', // Update contentBase to point to the correct directory
+    port: 8564
   },
   optimization: {
     splitChunks: {
-      chunks: "all",
-    },
+      chunks: 'all'
+    }
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "./src/header/header.html",
-      filename: "header.html",
-      chunks: ["header"],
-    }),
-    new HtmlWebpackPlugin({
-      template: "./src/body/body.html",
-      filename: "body.html",
-      chunks: ["body"],
-    }),
-    new HtmlWebpackPlugin({
-      template: "./src/footer/footer.html",
-      filename: "footer.html",
-      chunks: ["footer"],
+      hash: true,
+      filename: './public/index.html' //relative to root of the application
     }),
   ],
   entry: {
-    header: "./src/header/header.js",
-    body: "./src/body/body.js",
-    footer: "./src/footer/footer.js",
+    header: './modules/header/header.js',
+    body: './modules/body/body.js',
+    footer: './modules/footer/footer.js'
+  },
+  performance: {
+    maxAssetSize: 1000000,
+    maxEntrypointSize: 1000000,
   },
   output: {
-    filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, "public"),
   },
   module: {
     rules: [
-      // Add necessary rules for handling different file types (e.g., CSS, images) if required
+      {
+        test: /\.css$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          'image-webpack-loader',
+          'babel-loader', // Use babel-loader to process .js files
+        ]
+      },
+      {
+        test: /\.(gif|png|jpg|jpeg|svg)$/i,
+        use: [
+          "file-loader",
+          {
+            loader: "image-webpack-loader",
+            options: {
+              bypassOnDebug: true, // webpack@1.x
+              disable: true, // webpack@2.x and newer
+            },
+          },
+        ],
+      },
     ],
   },
 };
