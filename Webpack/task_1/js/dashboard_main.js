@@ -1,7 +1,7 @@
 // Task 1 - js/dashboard_main.js
 
 import $ from 'jquery';
-import _ from 'loadash';
+import _ from 'lodash';
 
 $(document).ready(function() {
     // Function to update the counter
