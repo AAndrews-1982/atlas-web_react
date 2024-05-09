@@ -12,10 +12,15 @@ function App() {
 
       <body className="App-body">
         <p>Login to access the full dashboard</p>
+        <label htmlFor="email">Email:</label>
+        <input id="email" type="email" />
+        <label htmlFor="password">Password:</label>
+        <input id="password" type="password" />
+        <button>OK</button>
       </body>
 
       <footer className="App-footer">
-        <p>Copyright 2024 - holberton School</p>
+        <p>Copyright {getFullYear()} - holberton School</p>
       </footer>
     </div>
   );
